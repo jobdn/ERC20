@@ -1,19 +1,28 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
+import { Contract } from "ethers";
 
 describe("ERC20", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+  let ERC20: Contract;
+  beforeEach(async () => {
+    const ERC20Factory = await ethers.getContractFactory("ERC20");
+    ERC20 = await ERC20Factory.deploy();
+    await ERC20.deployed();
+  });
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+  describe("Mint tokens", () => {
+    it("Should mint tokens", async () => {
+      const [owner] = await ethers.getSigners();
+      ERC20.mint(owner.address, 1000);
+      ERC20.mint(owner.address, 1000);
+      expect(await ERC20.balanceOf(owner.address)).to.equal(2000);
+      expect(await ERC20.totalSupply()).to.equal(2000);
+    });
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
-
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
-
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    it("Should fail if owner has 0 address", async () => {
+      await expect(
+        ERC20.mint(ethers.constants.AddressZero, 1000)
+      ).to.be.revertedWith("Zero address");
+    });
   });
 });
