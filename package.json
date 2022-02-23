@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.0",
-    "dotenv-stringify": "^2.0.6"
+    "dotenv-stringify": "^2.0.6",
+    "hardhat-contract-sizer": "^2.4.0"
   }
 }

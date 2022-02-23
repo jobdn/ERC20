@@ -1,5 +1,6 @@
-import "hardhat-gas-reporter";
 import "@nomiclabs/hardhat-waffle";
+import "hardhat-contract-sizer";
+import "hardhat-gas-reporter";
 import "solidity-coverage";
 import "./tasks";
 
