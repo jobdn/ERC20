@@ -5,6 +5,7 @@ contract ERC20 {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowed;
     uint256 private _totalSupply;
+    address private _owner;
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
     event Approval(address indexed from, address indexed to, uint256 amount);
@@ -12,6 +13,15 @@ contract ERC20 {
     modifier notZeroAddress(address addr) {
         require(addr != address(0), "Zero address");
         _;
+    }
+
+    modifier onlyOwner() {
+        return (msg.sender == _owner, "You are not owner");
+        _;
+    }
+
+    constructor() {
+        _owner = msg.sender;
     }
 
     // View functions
@@ -67,14 +77,22 @@ contract ERC20 {
         return true;
     }
 
-    function mint(address owner, uint256 amount) public notZeroAddress(owner) {
+    function mint(address owner, uint256 amount)
+        public
+        onlyOwner
+        notZeroAddress(owner)
+    {
         _balances[owner] += amount;
         _totalSupply += amount;
 
         emit Transfer(address(0), owner, amount);
     }
 
-    function burn(address owner, uint256 amount) public notZeroAddress(owner) {
+    function burn(address owner, uint256 amount)
+        public
+        onlyOwner
+        notZeroAddress(owner)
+    {
         require(amount <= _balances[owner], "Owner has not such tokens amount");
 
         _balances[owner] -= amount;
