@@ -6,6 +6,8 @@ contract ERC20 {
     mapping(address => mapping(address => uint256)) private _allowed;
     uint256 private _totalSupply;
     address private _owner;
+    address public _name;
+    address public _decimals;
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
     event Approval(address indexed from, address indexed to, uint256 amount);
@@ -16,7 +18,7 @@ contract ERC20 {
     }
 
     modifier onlyOwner() {
-        return (msg.sender == _owner, "You are not owner");
+        require(msg.sender == _owner, "You are not owner");
         _;
     }
 
