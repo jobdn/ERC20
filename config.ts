@@ -1,1 +1,1 @@
-export const ERC_ADDRESS: string = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+export const ERC_ADDRESS: string = "0x98d38CC29e988b52836d5dF8aB4A6ABcAe68cB64";

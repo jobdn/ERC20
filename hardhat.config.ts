@@ -1,4 +1,5 @@
 import "@nomiclabs/hardhat-waffle";
+import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
@@ -9,7 +10,10 @@ export default {
   networks: {
     rinkeby: {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_PRIVATE_KEY}`,
-      accounts: [process.env.RINKEBY_PRIVATE_KEY],
+      accounts: [process.env.RINKEBY_PRIVATE_KEY, process.env.RINKEBY_PRIVATE_KEY_1],
     },
   },
+  etherscan: {
+    apiKey: `${process.env.ETHERSCAN_KEY}`
+  }
 };
