@@ -87,6 +87,31 @@ contract ERC20 {
         return true;
     }
 
+    function increaseAllowance(address spender, uint256 addedValue)
+        public
+        notZeroAddress(spender)
+        returns (bool)
+    {
+        _allowed[msg.sender][spender] += addedValue;
+        emit Approval(msg.sender, spender, _allowed[msg.sender][spender]);
+        return true;
+    }
+
+    function decreaseAllowance(address spender, uint256 subtracredValue)
+        public
+        notZeroAddress(spender)
+        returns (bool)
+    {
+        require(
+            subtracredValue <= _allowed[msg.sender][spender],
+            "Spended value less then 0"
+        );
+
+        _allowed[msg.sender][spender] -= subtracredValue;
+        emit Approval(msg.sender, spender, _allowed[msg.sender][spender]);
+        return true;
+    }
+
     function mint(address owner, uint256 amount)
         public
         onlyOwner
@@ -103,7 +128,10 @@ contract ERC20 {
         onlyOwner
         notZeroAddress(owner)
     {
-        require(amount <= _balances[owner], "There is no such amount of tokens");
+        require(
+            amount <= _balances[owner],
+            "There is no such amount of tokens"
+        );
 
         _balances[owner] -= amount;
         _totalSupply -= amount;
