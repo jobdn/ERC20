@@ -35,6 +35,14 @@ contract ERC20 {
         return _balances[owner];
     }
 
+    function allowance(address owner, address spender)
+        public
+        view
+        returns (uint256)
+    {
+        return _allowed[owner][spender];
+    }
+
     function transfer(address to, uint256 amount)
         public
         notZeroAddress(to)
@@ -57,7 +65,7 @@ contract ERC20 {
         require(amount <= _balances[from], "Not enough tokens");
         require(
             amount <= _allowed[from][msg.sender],
-            "Cannot transfer such tokens amount"
+            "Cannot transfer such tokens amount or you cannot spend tokens of this owner"
         );
 
         _balances[from] -= amount;
@@ -95,7 +103,7 @@ contract ERC20 {
         onlyOwner
         notZeroAddress(owner)
     {
-        require(amount <= _balances[owner], "Owner has not such tokens amount");
+        require(amount <= _balances[owner], "There is no such amount of tokens");
 
         _balances[owner] -= amount;
         _totalSupply -= amount;
