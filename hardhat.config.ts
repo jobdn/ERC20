@@ -11,7 +11,7 @@ export default {
   networks: {
     rinkeby: {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_PRIVATE_KEY}`,
-      accounts: [process.env.RINKEBY_PRIVATE_KEY, process?.env?.RINKEBY_PRIVATE_KEY_1],
+      accounts: [process.env.RINKEBY_PRIVATE_KEY],
     },
   },
   etherscan: {

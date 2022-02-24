@@ -1,4 +1,5 @@
 import "@nomiclabs/hardhat-ethers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Signer } from "ethers";
 import { task } from "hardhat/config";
 import { TaskArguments } from "hardhat/types";
@@ -9,8 +10,11 @@ task("transferFrom", "Transfer tokens from address to another address")
   .addParam("to", "Address to which token will be sent")
   .addParam("amount", "Amount of tokens")
   .setAction(async (taskArgs: TaskArguments, hre) => {
-    const owner: Signer = (await hre.ethers.getSigners())[0];
-    const ERC20Contract = await hre.ethers.getContractAt("ERC20", config.ERC_ADDRESS);
+    const owner: SignerWithAddress = (await hre.ethers.getSigners())[0];
+    const ERC20Contract = await hre.ethers.getContractAt(
+      "ERC20",
+      config.ERC_ADDRESS
+    );
     const ERC20WithSigner = ERC20Contract.connect(owner);
 
     await ERC20WithSigner.transferFrom(
