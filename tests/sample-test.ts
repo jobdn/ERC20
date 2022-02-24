@@ -149,4 +149,17 @@ describe("ERC20", function () {
       expect(await ERC20.balanceOf(owner.address)).to.equal(0);
     });
   });
+
+  describe("Increase and decrease tests", () => {
+    it("Should increase allowance", async () => {
+      await ERC20.mint(owner.address, 5000);
+      expect(await ERC20.balanceOf(owner.address)).to.equal(5000);
+
+      await ERC20.approve(acc1.address, 700);
+      expect(await ERC20.allowance(owner.address, acc1.address)).to.equal(700);
+      
+      await ERC20.increaseAllowance(acc1.address, 300);
+      expect(await ERC20.allowance(owner.address, acc1.address)).to.equal(1000);
+    })
+  })
 });
