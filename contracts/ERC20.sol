@@ -104,7 +104,7 @@ contract ERC20 {
     {
         require(
             subtracredValue <= _allowed[msg.sender][spender],
-            "Spended value less then 0"
+            "Allowed value to spend less then 0"
         );
 
         _allowed[msg.sender][spender] -= subtracredValue;
