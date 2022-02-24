@@ -26,6 +26,12 @@ describe("ERC20", function () {
       expect(await ERC20.totalSupply()).to.equal(2000);
     });
 
+    it("Should fail if not owner", async () => {
+      await expect(
+        ERC20.connect(acc1).mint(acc1.address, 1000)
+      ).to.be.revertedWith("You are not owner");
+    });
+
     it("Should fail if owner has 0 address", async () => {
       await expect(
         ERC20.mint(ethers.constants.AddressZero, 1000)
@@ -48,7 +54,7 @@ describe("ERC20", function () {
       expect(await ERC20.balanceOf(owner.address)).to.equal(500);
     });
 
-    it("Should fail if transfer doen't have anough tokens", async () => {
+    it("Should fail if owner doesn't have enough tokens", async () => {
       await ERC20.mint(owner.address, 1000);
       expect(await ERC20.balanceOf(owner.address)).to.equal(1000);
 
@@ -75,12 +81,6 @@ describe("ERC20", function () {
       ).to.be.revertedWith(
         "Cannot transfer such tokens amount or you cannot spend tokens of this owner"
       );
-    });
-
-    it("Owner has 0 address", async () => {
-      await expect(
-        ERC20.approve(ethers.constants.AddressZero, 1000)
-      ).to.be.revertedWith("Zero address");
     });
 
     it("Should update the allowed spenders of owner", async () => {
@@ -118,20 +118,6 @@ describe("ERC20", function () {
   });
 
   describe("Burn tests", () => {
-    it("Should fail if not owner", async () => {
-      await ERC20.mint(acc1.address, 1000);
-      await expect(
-        ERC20.connect(acc1).burn(acc1.address, 1000)
-      ).to.be.revertedWith("You are not owner");
-    });
-
-    it("Should fail if 0 address", async () => {
-      await ERC20.mint(acc1.address, 1000);
-      await expect(
-        ERC20.burn(ethers.constants.AddressZero, 1000)
-      ).to.be.revertedWith("Zero address");
-    });
-
     it("Should fail if there is no such amount of tokens", async () => {
       await expect(ERC20.burn(owner.address, 1000)).to.be.revertedWith(
         "There is no such amount of tokens"
@@ -175,7 +161,7 @@ describe("ERC20", function () {
 
     it("Should fail if allowance will be less than 0", async () => {
       await expect(
-        ERC20.decreaseAllowance(acc1.address, 300)
+        ERC20.decreaseAllowance(acc1.address, 500)
       ).to.be.revertedWith("Allowed value to spend less then 0");
     });
   });
