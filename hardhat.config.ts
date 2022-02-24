@@ -1,3 +1,4 @@
+import '@typechain/hardhat';
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
