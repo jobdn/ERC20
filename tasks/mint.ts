@@ -3,7 +3,7 @@ import { task } from "hardhat/config";
 import { TaskArguments } from "hardhat/types";
 import { BigNumber, Contract, ethers, Signer } from "ethers";
 
-import { ERC_ADDRESS } from "../config";
+import { config } from "../config";
 
 task("mint", "Mint tokens to address")
   .addParam("owner", "Owner of tokens")
@@ -13,7 +13,7 @@ task("mint", "Mint tokens to address")
 
     const ERC20Contract: Contract = await hre.ethers.getContractAt(
       "ERC20",
-      ERC_ADDRESS
+      config.ERC_ADDRESS
     );
     const ERCWithSigner = ERC20Contract.connect(owner);
 

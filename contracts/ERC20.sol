@@ -23,8 +23,15 @@ contract ERC20 {
         _;
     }
 
-    constructor() {
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint256 decimals
+    ) {
         _owner = msg.sender;
+        _name = name;
+        _symbol = symbol;
+        _decimals = decimals;
     }
 
     // View functions

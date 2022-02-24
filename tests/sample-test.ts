@@ -14,7 +14,7 @@ describe("ERC20", function () {
     const ERC20Factory: ERC20__factory = (await ethers.getContractFactory(
       "ERC20"
     )) as ERC20__factory;
-    ERC20 = await ERC20Factory.deploy();
+    ERC20 = await ERC20Factory.deploy("ERC20 Token", "ERC20T", 100);
     await ERC20.deployed();
   });
 

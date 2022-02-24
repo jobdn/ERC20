@@ -22,6 +22,7 @@ export interface ERC20Interface extends utils.Interface {
   functions: {
     "_decimals()": FunctionFragment;
     "_name()": FunctionFragment;
+    "_symbol()": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -36,6 +37,7 @@ export interface ERC20Interface extends utils.Interface {
 
   encodeFunctionData(functionFragment: "_decimals", values?: undefined): string;
   encodeFunctionData(functionFragment: "_name", values?: undefined): string;
+  encodeFunctionData(functionFragment: "_symbol", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "allowance",
     values: [string, string]
@@ -76,6 +78,7 @@ export interface ERC20Interface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "_decimals", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "_name", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "_symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -150,9 +153,11 @@ export interface ERC20 extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    _decimals(overrides?: CallOverrides): Promise<[string]>;
+    _decimals(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     _name(overrides?: CallOverrides): Promise<[string]>;
+
+    _symbol(overrides?: CallOverrides): Promise<[string]>;
 
     allowance(
       owner: string,
@@ -208,9 +213,11 @@ export interface ERC20 extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  _decimals(overrides?: CallOverrides): Promise<string>;
+  _decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
   _name(overrides?: CallOverrides): Promise<string>;
+
+  _symbol(overrides?: CallOverrides): Promise<string>;
 
   allowance(
     owner: string,
@@ -266,9 +273,11 @@ export interface ERC20 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    _decimals(overrides?: CallOverrides): Promise<string>;
+    _decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
     _name(overrides?: CallOverrides): Promise<string>;
+
+    _symbol(overrides?: CallOverrides): Promise<string>;
 
     allowance(
       owner: string,
@@ -353,6 +362,8 @@ export interface ERC20 extends BaseContract {
 
     _name(overrides?: CallOverrides): Promise<BigNumber>;
 
+    _symbol(overrides?: CallOverrides): Promise<BigNumber>;
+
     allowance(
       owner: string,
       spender: string,
@@ -411,6 +422,8 @@ export interface ERC20 extends BaseContract {
     _decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     _name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    _symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     allowance(
       owner: string,

@@ -1,1 +1,6 @@
-export const ERC_ADDRESS: string = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9";
+export const config = {
+  ERC_ADDRESS: "0xDB72BC0318BAEdA8F533d85a580FBc30d1567CcB",
+  NAME: "ERC20 Token",
+  SYMBOL: "ERC20T",
+  DECIMALS: 100,
+};
