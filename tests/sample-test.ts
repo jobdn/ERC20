@@ -144,7 +144,7 @@ describe("ERC20", function () {
 
       await ERC20.burn(owner.address, 500);
       expect(await ERC20.balanceOf(owner.address)).to.equal(500);
-      
+
       await ERC20.burn(owner.address, 500);
       expect(await ERC20.balanceOf(owner.address)).to.equal(0);
     });
@@ -157,9 +157,26 @@ describe("ERC20", function () {
 
       await ERC20.approve(acc1.address, 700);
       expect(await ERC20.allowance(owner.address, acc1.address)).to.equal(700);
-      
+
       await ERC20.increaseAllowance(acc1.address, 300);
       expect(await ERC20.allowance(owner.address, acc1.address)).to.equal(1000);
-    })
-  })
+    });
+
+    it("Should decrease allowance", async () => {
+      await ERC20.mint(owner.address, 5000);
+      expect(await ERC20.balanceOf(owner.address)).to.equal(5000);
+
+      await ERC20.approve(acc1.address, 700);
+      expect(await ERC20.allowance(owner.address, acc1.address)).to.equal(700);
+
+      await ERC20.decreaseAllowance(acc1.address, 300);
+      expect(await ERC20.allowance(owner.address, acc1.address)).to.equal(400);
+    });
+
+    it("Should fail if allowance will be less than 0", async () => {
+      await expect(
+        ERC20.decreaseAllowance(acc1.address, 300)
+      ).to.be.revertedWith("Allowed value to spend less then 0");
+    });
+  });
 });
