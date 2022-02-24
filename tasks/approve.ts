@@ -13,5 +13,5 @@ task("approve")
     const ERC20WithSigner = ERC20Contract.connect(owner);
 
     await ERC20WithSigner.approve(taskArgs.spender, taskArgs.amount);
-    console.log(`Account ${taskArgs.spender} can spend ${taskArgs.amount} of tokens`);    
+    console.log(`Account ${taskArgs.spender} can spend ${taskArgs.amount} of tokens from ${await owner.getAddress()}`);    
   });

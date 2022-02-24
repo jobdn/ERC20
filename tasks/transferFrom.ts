@@ -20,10 +20,9 @@ task("transferFrom", "Transfer tokens from address to another address")
     );
 
     const fromBalance = (
-      await ERC20Contract.balanceOf(taskArgs.form)
+      await ERC20Contract.balanceOf(taskArgs.from)
     ).toNumber();
     const toBalance = (await ERC20Contract.balanceOf(taskArgs.to)).toNumber();
-
     console.log(`Balance of ${taskArgs.from} :`, fromBalance);
     console.log(`Balance of ${taskArgs.to} :`, toBalance);
   });

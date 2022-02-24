@@ -9,7 +9,6 @@ task("mint", "Mint tokens to address")
   .addParam("owner", "Owner of tokens")
   .addParam("amount", "Amount of tokens")
   .setAction(async (taskArgs: TaskArguments, hre) => {
-    // TODO: do i need set the owner?
     const owner: Signer = (await hre.ethers.getSigners())[0];
 
     const ERC20Contract: Contract = await hre.ethers.getContractAt(
