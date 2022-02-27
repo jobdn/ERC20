@@ -1,7 +1,9 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-contract ERC20 {
+import "@openzeppelin/contracts/access/AccessControl.sol";
+
+contract ERC20 is AccessControl{
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowed;
     uint256 private _totalSupply;
