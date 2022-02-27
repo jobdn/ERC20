@@ -124,6 +124,12 @@ describe("ERC20", function () {
       );
     });
 
+    it("Should fail if not owner", async () => {
+      await expect(
+        ERC20.connect(acc1).burn(acc1.address, 1000)
+      ).to.be.revertedWith("You are not owner");
+    });
+
     it("Should burn some amount of tokens", async () => {
       await ERC20.mint(owner.address, 1000);
       expect(await ERC20.balanceOf(owner.address)).to.equal(1000);

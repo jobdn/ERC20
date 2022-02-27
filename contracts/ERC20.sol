@@ -3,11 +3,10 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract ERC20 is AccessControl{
+contract ERC20 is AccessControl {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowed;
     uint256 private _totalSupply;
-    address private _owner;
     string public _name;
     string public _symbol;
     uint256 public _decimals;
@@ -15,13 +14,12 @@ contract ERC20 is AccessControl{
     event Transfer(address indexed from, address indexed to, uint256 amount);
     event Approval(address indexed from, address indexed to, uint256 amount);
 
+    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
+
     modifier notZeroAddress(address addr) {
         require(addr != address(0), "Zero address");
-        _;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == _owner, "You are not owner");
         _;
     }
 
@@ -30,10 +28,17 @@ contract ERC20 is AccessControl{
         string memory symbol,
         uint256 decimals
     ) {
-        _owner = msg.sender;
         _name = name;
         _symbol = symbol;
         _decimals = decimals;
+
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(ADMIN_ROLE, msg.sender);
+        _setupRole(MINTER_ROLE, msg.sender);
+        _setupRole(BURNER_ROLE, msg.sender);
+
+        _setRoleAdmin(MINTER_ROLE, ADMIN_ROLE);
+        _setRoleAdmin(BURNER_ROLE, ADMIN_ROLE);
     }
 
     // View functions
@@ -124,9 +129,9 @@ contract ERC20 is AccessControl{
 
     function mint(address owner, uint256 amount)
         public
-        onlyOwner
         notZeroAddress(owner)
     {
+        require(hasRole(MINTER_ROLE, msg.sender), "You are not owner");
         _balances[owner] += amount;
         _totalSupply += amount;
 
@@ -135,9 +140,9 @@ contract ERC20 is AccessControl{
 
     function burn(address owner, uint256 amount)
         public
-        onlyOwner
         notZeroAddress(owner)
     {
+        require(hasRole(BURNER_ROLE, msg.sender), "You are not owner");
         require(
             amount <= _balances[owner],
             "There is no such amount of tokens"
